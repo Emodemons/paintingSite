@@ -100,6 +100,11 @@ html.floaters-grabbing * {
   height: auto;
 }
 
+/* Paintings in the gallery (built by paintings.js) */
+.painting {
+  width: 500px;
+}
+
 button:disabled {
   background-color: grey;
   color: white;
