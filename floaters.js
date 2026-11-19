@@ -9,9 +9,7 @@
   // radius = distance from the image centre to its furthest visible pixel,
   // as a fraction of the image width (measured from the images)
   const ALL_IMAGES = [
-    { src: "pictures/organic_cutouts_web/IMG_0364.webp", radius: 0.6371 },
-    { src: "pictures/organic_cutouts_web/IMG_1355.webp", radius: 0.5399 },
-    { src: "pictures/organic_cutouts_web/IMG_2061.webp", radius: 0.5240 },
+    { src: "pictures/organic_cutouts_web/IMG_2061.webp", radius: 0.6371 },
     { src: "pictures/organic_cutouts_web/IMG_2374.webp", radius: 0.5550 },
     { src: "pictures/organic_cutouts_web/IMG_2453.webp", radius: 0.5168 },
     { src: "pictures/organic_cutouts_web/IMG_pink.webp", radius: 0.5362 }
