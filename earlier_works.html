@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Painting</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- bootstrap css -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link href="main.css" rel="stylesheet" />
+</head>
+
+<body data-page="painting">
+
+<!-- Navigation -->
+<nav>
+  <div class="nav">
+  <div class="container">
+    <div class="nav-bar">
+
+      <!-- Logo on the left -->
+      <a href="index.html" class="nav-logo">
+        <img src="pictures/emma website-2.png"
+             alt="logo"
+             style="height:90px; width:auto;">
+      </a>
+
+      <!-- Menu toggle (mobile only) -->
+      <button class="button-1 nav-toggle" id="nav-toggle"
+        aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+        &#9776;
+      </button>
+
+      <!-- Navigation buttons on the right -->
+      <div class="nav-links" id="nav-links">
+        <button class="button-1" id="painting"
+          onclick="location.href='index.html'">
+          Painting
+        </button>
+
+        <button class="button-1" id="biography"
+          onclick="location.href='bio.html'">
+          Biography
+        </button>
+
+        <button class="button-1" id="performance"
+          onclick="location.href='video.html'">
+          Performance
+        </button>
+      </div>
+
+    </div>
+  </div>
+  </div>
+</nav>
+
+<!-- Images of paintings: the list is in paintings.js -->
+<div class="container" id="gallery2"></div>
+
+<footer>
+  <div class="footer">
+    <div class="container">
+      <p>Copyright &copy; 2024 Emma</p>
+    </div>
+  </div>  
+</footer>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script src="paintings.js"></script>
+
+<script src="floaters.js"></script>
+
+<script src="script.js"></script>
+</body>
+</html>

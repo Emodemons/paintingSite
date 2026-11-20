@@ -7,6 +7,13 @@
   margin: 10px;
 }
 
+.footer {
+  background-color: #f1f1f1;
+  padding: 10px 0;
+  text-align: center;
+  margin-top: 50px;
+}
+
 /* Drifting background cutouts (see floaters.js) */
 .floaters {
   position: absolute; /* covers the whole page and scrolls with it */
