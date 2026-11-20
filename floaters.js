@@ -1,7 +1,9 @@
 // Slowly drifting transparent cutouts in the page background.
-// They are spread over the whole page (not just the window), so a longer
-// page gives each cutout more room and makes them bigger. Each image
-// appears at most once.
+// They are spread over the whole page (not just the window). A longer page
+// shows more of the images (a shorter page fewer), so the cutouts stay
+// roughly the same size. Every image is used once before any repeats; on
+// long pages an image can come back as a clearly smaller or bigger copy,
+// placed well away from its twin.
 // They never overlap: each one is treated as a circle that fully contains
 // its visible shape (at any rotation), and a move that would bring two
 // circles closer than GAP is refused and the cutout turns away instead.
@@ -9,10 +11,12 @@
   // radius = distance from the image centre to its furthest visible pixel,
   // as a fraction of the image width (measured from the images)
   const ALL_IMAGES = [
-    { src: "pictures/organic_cutouts_web/IMG_2061.webp", radius: 0.6371 },
+    { src: "pictures/organic_cutouts_web/IMG_2061.webp", radius: 0.5240 },
     { src: "pictures/organic_cutouts_web/IMG_2374.webp", radius: 0.5550 },
     { src: "pictures/organic_cutouts_web/IMG_2453.webp", radius: 0.5168 },
-    { src: "pictures/organic_cutouts_web/IMG_pink.webp", radius: 0.5362 }
+    { src: "pictures/organic_cutouts_web/IMG_pink.webp", radius: 0.5362 },
+    { src: "pictures/organic_cutouts_web/BEANS2.webp", radius: 0.6 },
+    { src: "pictures/organic_cutouts_web/BEAN1.webp", radius: 0.6 },
   ];
 
   // Tweak these to change the feel
@@ -29,9 +33,20 @@
   const MIN_SIZE = 0.85;      // image width as a fraction of its room
   const MAX_SIZE = 1.15;
   const MAX_PAGE_WIDTH = 0.8; // never wider than this fraction of the page width
+  const MAX_SCREEN_SIZE = 0.5; // EASIEST WAY TO MAKE THEM SMALLER: cutouts are never wider
+                               // than this fraction of the window width (0.3 = 30%),
+                               // however long the page is. Lower = smaller cutouts.
   const MAX_SIZE_PX = 1200;   // the image files are 1200px, so bigger would look blurry
-  const COUNT = 5;            // how many cutouts to show (a random pick of the images,
-                              // never more than one of each)
+  // How many cutouts: grows with the length of the page
+  const PER_SCREEN = 1.5;     // cutouts per window-height of page (raise for more, smaller ones)
+  const MIN_COUNT = 3;        // never fewer than this, even on a short page
+  // Repeats (only used when the page wants more cutouts than there are images)
+  const MAX_COPIES = 2;       // how many times one image may appear at most (1 = never repeat)
+  const REPEAT_SIZES = [0.6, 1.3]; // sizes used for repeats, taken in turn, so some
+                              // repeats are smaller and some bigger than normal
+                              // (0.6 = 60% of normal size, 1.3 = 130%)
+  const TWIN_DISTANCE = 1;    // copies of the same image start at least this many
+                              // window-heights apart
   const GAP_SIZE = 0.4;       // minimum space between two cutouts, as a fraction
   const MIN_GAP = 4;          // of its room (never below MIN_GAP px)
   const MAX_FILL = 0.8;       // THE MAIN SIZE LIMIT: how tightly the cutouts may pack.
@@ -57,10 +72,32 @@
   const HOLD_FOLLOW = 18;     // how tightly a dragged cutout follows the mouse (higher = tighter)
   const MAX_THROW = 600;      // top speed when letting go mid-drag (pixels per second)
 
-  // A different random selection of cutouts on each page load
-  const IMAGES = ALL_IMAGES.slice()
-    .sort(function () { return Math.random() - 0.5; })
-    .slice(0, COUNT);
+  // A different random selection of `count` cutouts on each page load.
+  // All images are used once (in random order, normal size) before any image
+  // is used again; repeats take their sizes from REPEAT_SIZES in turn.
+  function pickImages(count) {
+    const picked = [];
+    let repeats = 0;
+    for (let copy = 0; copy < MAX_COPIES && picked.length < count; copy++) {
+      const round = ALL_IMAGES.map(function (img, k) { return { img: img, key: k }; })
+        .sort(function () { return Math.random() - 0.5; });
+      round.forEach(function (item) {
+        if (picked.length >= count) return;
+        let size = 1;
+        if (copy > 0) {
+          size = REPEAT_SIZES[repeats % REPEAT_SIZES.length];
+          repeats++;
+        }
+        picked.push({
+          src: item.img.src,
+          radius: item.img.radius,
+          key: item.key,                       // same key = same image
+          copySize: size
+        });
+      });
+    }
+    return picked;
+  }
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -97,14 +134,27 @@
   }
   measurePage();
 
+  // More cutouts on longer pages, fewer on shorter ones, so each one keeps
+  // a similar size (limited by how many images and copies there are)
+  const screens = H / Math.max(window.innerHeight, 1);
+  const wanted = Math.max(MIN_COUNT, Math.round(screens * PER_SCREEN));
+  const count = Math.min(wanted, ALL_IMAGES.length * MAX_COPIES);
+  const IMAGES = pickImages(count);
+
+  // The biggest copy size actually used, so even big copies stay within
+  // the size limits (and still look clearly bigger than the normal ones)
+  const biggestCopy = IMAGES.reduce(function (m, img) { return Math.max(m, img.copySize); }, 1);
+
   // Pick sizes, then shrink them all if together they would crowd the page
   const roomSize = Math.sqrt((W * H) / IMAGES.length);
   const GAP = Math.max(MIN_GAP, Math.min(roomSize, W) * GAP_SIZE);
   // (the limits are applied before the random variation, so the cutouts
   // still differ in size even when they're at the limit)
-  const baseWidth = Math.min(roomSize, W * MAX_PAGE_WIDTH / MAX_SIZE, MAX_SIZE_PX / MAX_SIZE);
-  const widths = IMAGES.map(function () {
-    return baseWidth * rand(MIN_SIZE, MAX_SIZE);
+  const sizeLimit = MAX_SIZE * biggestCopy;
+  const baseWidth = Math.min(roomSize, W * MAX_PAGE_WIDTH / sizeLimit, MAX_SIZE_PX / sizeLimit,
+                             W * MAX_SCREEN_SIZE / sizeLimit);
+  const widths = IMAGES.map(function (img) {
+    return baseWidth * rand(MIN_SIZE, MAX_SIZE) * img.copySize;
   });
   let covered = 0, avgR = 0;
   IMAGES.forEach(function (img, i) {
@@ -115,17 +165,19 @@
   const room = W * H; // they live on the page, so only count the page itself
   let scale = Math.min(1, Math.sqrt((MAX_FILL * room) / covered));
 
-  // Place them without overlaps; if it can't be done, shrink a bit and retry
+  // Place them without overlaps; if it can't be done, shrink a bit and retry.
+  // The first tries also keep copies of the same image far apart; if that
+  // can't be done the page is simply too crowded, so later tries drop it.
   let floaters;
   for (let attempt = 0; attempt < 30; attempt++) {
-    floaters = place(scale);
+    floaters = place(scale, attempt < 15 ? TWIN_DISTANCE * window.innerHeight : 0);
     if (floaters) break;
     scale *= 0.92;
   }
 
   // Scatter them randomly, then nudge overlapping ones apart until
-  // every pair has at least GAP between them
-  function place(s) {
+  // every pair has at least GAP between them (and twins at least twinGap)
+  function place(s, twinGap) {
     const placed = IMAGES.map(function (img, i) {
       const width = widths[i] * s;
       const r = width * img.radius;
@@ -141,7 +193,8 @@
           let dx = q.x - p.x;
           let dy = q.y - p.y;
           let d = Math.hypot(dx, dy);
-          const need = p.r + q.r + GAP + 1;
+          let need = p.r + q.r + GAP + 1;
+          if (IMAGES[p.i].key === IMAGES[q.i].key) need = Math.max(need, twinGap);
           if (d >= need) continue;
           clear = false;
           if (d < 0.01) { dx = rand(-1, 1); dy = rand(-1, 1); d = Math.hypot(dx, dy); }

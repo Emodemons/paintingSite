@@ -10,7 +10,19 @@
 const PAINTINGS = [
   { file: "patapouf",    title: "Patapouf",    width: 2405, height: 3152 },
   { file: "right-wrong", title: "Right wrong", width: 2166, height: 2616 },
-  { file: "right2", title: "Wrong right", width: 2166, height: 2616 },
+  { file: "right2", title: "Wrong right", width: 1995, height: 2355 },
+  { file: "tigers", title: "tigers", width: 2256, height: 1802 },
+  { file: "gyno", title: "gyno", width: 1563, height: 2255 },
+  { file: "snake", title: "snake", width: 2452, height: 3264 },
+  { file: "pattern", title: "pattern", width: 2159, height: 2159 },
+  { file: "girl", title: "girl", width: 2080, height: 2514 },
+  { file: "edo", title: "edo", width: 4051, height: 4807 },
+  { file: "red", title: "red", width: 2221, height: 2905 },
+  { file: "couches", title: "couches", width: 2380, height: 1170 },
+  { file: "youmake", title: "youmake", width: 1936, height: 2844 },
+  { file: "nape", title: "nape", width: 1893, height: 2650 },
+  { file: "fromage", title: "fromage", width: 1834, height: 2324 },
+  
 ];
 
 (function () {
@@ -52,7 +64,6 @@ const PAINTINGS = [
 //gallery 2
 
 const PAINTINGS2 = [
-  { file: "patapouf",    title: "Patapouf",    width: 2405, height: 3152 },
 ];
 
 (function () {

@@ -1,10 +1,25 @@
 .img {
   width: 100%;
-  margin-top: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .nav {
+  margin: 20px;
+}
+
+p {
   margin: 10px;
+  font-size: 18px;
+  font-family: Tahoma, sans-serif;
+  text-shadow: 1px 0 10px rgb(255, 255, 255);
+  color: rgb(49, 50, 50)
+}
+
+h2 {
+  margin-top: 20px;
+  font-size: 34px;
+  font-family: Tahoma, sans-serif;
 }
 
 .footer {
@@ -108,6 +123,10 @@ html.floaters-grabbing * {
 }
 
 /* Paintings in the gallery (built by paintings.js) */
+#gallery {
+  padding: 30px 30px;
+}
+
 .painting {
   width: 500px;
 }
