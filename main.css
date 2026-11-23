@@ -23,7 +23,7 @@ h2 {
 }
 
 .footer {
-  background-color: #f1f1f1;
+  background-color: #DCF7D2;
   padding: 10px 0;
   text-align: center;
   margin-top: 50px;
@@ -131,9 +131,73 @@ html.floaters-grabbing * {
   width: 500px;
 }
 
+.painting-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.painting-item .img {
+  flex: 0 0 auto;
+  width: 500px;
+  order: 0;
+}
+
+.painting-caption {
+  width: 500px;
+  max-width: 100%;
+  margin-bottom: 0;
+  order: 1;
+  font-family: Tahoma, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgb(49, 50, 50);
+  text-shadow: 1px 0 10px rgb(255, 255, 255);
+}
+
+.painting-even {
+  align-items: flex-start;
+}
+
+.painting-odd {
+  align-items: flex-end;
+}
+
+.painting-odd .painting-caption {
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  .painting-item,
+  .painting-even,
+  .painting-odd {
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    align-items: stretch;
+    box-sizing: border-box;
+  }
+
+  .painting-item .img {
+    flex-basis: auto;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .painting-caption,
+  .painting-odd .painting-caption {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    text-align: left;
+    overflow-wrap: anywhere;
+    box-sizing: border-box;
+  }
+}
+
 button:disabled {
-  background-color: grey;
-  color: white;
+  background-color: #DCF7D2;
+  color: #0505FE;
   opacity: 0.7;
   cursor: default;
 }
