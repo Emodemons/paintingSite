@@ -210,6 +210,10 @@ html.floaters-grabbing * {
   width: auto;
 }
 
+.page-start {
+  margin-top: 60px;
+}
+
 .button-1.nav-toggle {
   display: none;
   font-size: 20px;
@@ -217,6 +221,10 @@ html.floaters-grabbing * {
 
 /* Mobile: collapse buttons into a dropdown */
 @media (max-width: 630px) {
+  .page-start {
+    margin-top: 24px;
+  }
+
   .button-1.nav-toggle {
     display: inline-block;
   }

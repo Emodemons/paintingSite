@@ -83,7 +83,7 @@ const PAINTINGS = [
 //gallery 2
 
 const PAINTINGS2 = [
-   { file: "fromage", title: "fromage", width: 1832, height: 2303 },
+   { file: "fromage", title: "fromage", width: 1832, height: 2303, description: "'Passes moi le Fromage' (2025), oil on canvas, 100 x 120 cm" },
    { file: "oui", title: "oui", width: 4032, height: 3024 },
    { file: "mirage", title: "mirage", width: 2473, height: 2081 },
    { file: "sick", title: "sick", width: 2821, height: 1892 },
