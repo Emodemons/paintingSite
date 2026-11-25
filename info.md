@@ -22,6 +22,10 @@ I didn't delete or change your original PNGs, `floaters.js`, `bio.html` or `vide
    ```
    ./convert-painting.sh "path/to/new-painting.png" new-painting
    ```
+
+   or use folder (in this case /pics): 
+   for f in pics/*.jpeg; do   name=$(basename "$f" .jpeg | tr '[:upper:]' '[:lower:]');   ./convert-painting.sh "$f" "$name"; done
+   
 2. It prints a line like `{ file: "new-painting", title: "new-painting", width: ..., height: ... },`. Paste it into the list at the top of [paintings.js](paintings.js#L10-L13) and change the `title` to the real name.
 
 The gallery keeps alternating left and right automatically. Only the first painting loads straight away; the others load as the visitor scrolls down.

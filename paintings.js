@@ -9,20 +9,21 @@
 //width / height = size of the original, keeps the page from jumping while loading
 //description = optional text shown beside this painting
 const PAINTINGS = [
-  { file: "patapouf",    title: "Patapouf",    width: 2405, height: 3152, description: "'Patapouf' (2026), oil on canvas, 140 x 185 cm" },
-  { file: "right-wrong", title: "Right wrong", width: 2166, height: 2616, description: "'You're Right I'm Wrong, Im Right You're Wrong' (2026), acrylics & oil on canvas, 140 x 180 cm" },
-  { file: "right2", title: "Wrong right", width: 1995, height: 2355, description: "'I'm Right, You're Wrong' (2026), acrylics & oil on canvas, 90 x 105 cm" },
-  { file: "tigers", title: "tigers", width: 2256, height: 1802, description: "'Stickers #2''" },
-  { file: "gyno", title: "gyno", width: 1563, height: 2255, description: "CHANGE PICTURE HERE!" },
-  { file: "snake", title: "snake", width: 2452, height: 3264, description: "'Sleep by the lake in July, read your coffee grounds in August' (2025), oil on canvas, 90 x 120 cm'" },
-  { file: "pattern", title: "pattern", width: 2159, height: 2159 },
-  { file: "girl", title: "girl", width: 2080, height: 2514 },
-  { file: "edo", title: "edo", width: 4051, height: 4807 },
-  { file: "red", title: "red", width: 2221, height: 2905 },
-  { file: "couches", title: "couches", width: 2380, height: 1170 },
-  { file: "youmake", title: "youmake", width: 1936, height: 2844 },
-  { file: "nape", title: "nape", width: 1893, height: 2650 },
-  { file: "fromage", title: "fromage", width: 1834, height: 2324 },
+  { file: "patapouf",    title: "Patapouf",    width: 2405, height: 3152, description: "'Patapouf' (2026), acrylic & oil on canvas, 140 x 185cm" },
+  { file: "right-wrong", title: "Right wrong", width: 2166, height: 2616, description: "'You're Right I'm Wrong, Im Right You're Wrong' (2026), acrylic & oil on canvas, 140 x 180 cm" },
+  { file: "right2", title: "Wrong right", width: 1995, height: 2355, description: "'I'm Right, You're Wrong' (2026), acrylic & oil on canvas, 90 x 105 cm" },
+  { file: "sticker", title: "sticker", width: 2458, height: 2031, description: "'Sticker #1' (2026), acrylic on canvas, 95 x 80 cm" },
+  { file: "tigers", title: "tigers", width: 2256, height: 1802, description: "'Stickers #2' (2026), acrylic & oil on canvas, 100 x 80 cm" },
+  { file: "swirls", title: "swirls", width: 2390, height: 1669, description: "'Small Twirls' (2026), acrylic & oil on canvas, 70 x 50 cm" },
+  { file: "gyno", title: "gyno", width: 1516, height: 2237, description: "'Why did it remind me of all those -' (2025), acrylic & oil on canvas, 140 x 210 cm" },
+  { file: "snake", title: "snake", width: 2452, height: 3264, description: "'Sleep by the lake in July, read your coffee grounds in August' (2026), oil on canvas, 90 x 120 cm'" },
+  { file: "pattern", title: "pattern", width: 2159, height: 2159, description: "'Wall-paper play' (2025), oil on canvas, 80 x 80 cm" },
+  { file: "girl", title: "girl", width: 2080, height: 2514, description: "'Come to my pool' (2026), oil on canvas, 140 x 170 cm" },
+  { file: "edo", title: "edo", width: 4051, height: 4807, description: "'Bring forth, sleep safe' (2026), acrylic & oil on canvas, 160 x 190 cm" },
+  { file: "red", title: "red", width: 2221, height: 2905, description: "'Les Terres Rouges derrière la maison' (2026), acrylic & oil on canvas, 140 x 185 cm" },
+  { file: "couches", title: "couches", width: 2380, height: 1170, description: "'Couches' (2026), oil on canvas, 100 x 50 cm" },
+  { file: "youmake", title: "youmake", width: 1936, height: 2844, description: "I like how you feel' (2026) oil on canvas, 110 x 160 cm" },
+  { file: "nape", title: "nape", width: 1893, height: 2650, description: "'Tablecloths' (2026), oil & acrylics on canvas, 110 x 170 cm"},
   
 ];
 
@@ -82,6 +83,24 @@ const PAINTINGS = [
 //gallery 2
 
 const PAINTINGS2 = [
+   { file: "fromage", title: "fromage", width: 1832, height: 2303 },
+   { file: "oui", title: "oui", width: 4032, height: 3024 },
+   { file: "mirage", title: "mirage", width: 2473, height: 2081 },
+   { file: "sick", title: "sick", width: 2821, height: 1892 },
+   { file: "maybe", title: "maybe", width: 3099, height: 2717 },
+   { file: "love", title: "love", width: 2221, height: 2585 },
+   { file: "maybe2", title: "maybe2", width: 2277, height: 2827 },
+   { file: "dance", title: "dance", width: 2357, height: 3194 },
+   { file: "puss", title: "puss", width: 2824, height: 3721 },
+   { file: "gene", title: "gene", width: 1947, height: 2618 },
+   { file: "under", title: "under", width: 2602, height: 3381 },
+   { file: "egg", title: "egg", width: 2527, height: 3115 },
+   { file: "egg2", title: "egg2", width: 3272, height: 2488 },
+   { file: "look", title: "look", width: 2333, height: 2902 },
+   { file: "toilet2", title: "toilet2", width: 1881, height: 2308 },
+   { file: "toilet", title: "toilet", width: 1878, height: 2253 },
+   { file: "babes", title: "babes", width: 2361, height: 1795 },
+   { file: "mouth", title: "mouth", width: 2667, height: 2655 },
 ];
 
 (function () {
