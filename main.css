@@ -214,6 +214,24 @@ html.floaters-grabbing * {
   margin-top: 60px;
 }
 
+.earlier-gallery {
+  margin-top: 60px;
+}
+
+.earlier-return {
+  display: flex;
+  justify-content: flex-start;
+  padding: 20px 30px 0;
+}
+
+.earlier-return .button-1 {
+  margin-bottom: 20px;
+}
+
+.earlier-gallery #gallery2 {
+  padding-top: 0;
+}
+
 .button-1.nav-toggle {
   display: none;
   font-size: 20px;
@@ -223,6 +241,14 @@ html.floaters-grabbing * {
 @media (max-width: 630px) {
   .page-start {
     margin-top: 24px;
+  }
+
+  .earlier-gallery {
+    margin-top: 24px;
+  }
+
+  .earlier-return {
+    padding-top: 16px;
   }
 
   .button-1.nav-toggle {
@@ -281,6 +307,7 @@ html.floaters-grabbing * {
 .painting-caption {
   margin-bottom: 0;
   order: 1;
+  max-width: 450px;
   font-family: "Instrument Serif", sans-serif;
   font-size: 16px;
   line-height: 1.5;
