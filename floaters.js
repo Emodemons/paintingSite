@@ -36,7 +36,10 @@
   const MAX_SCREEN_SIZE = 0.5; // EASIEST WAY TO MAKE THEM SMALLER: cutouts are never wider
                                // than this fraction of the window width (0.3 = 30%),
                                // however long the page is. Lower = smaller cutouts.
-  const MAX_SIZE_PX = 1200;   // the image files are 1200px, so bigger would look blurry
+  const SMALL_SCREEN_SIZE = 0.65; // the same limit on small screens (520px wide or less),
+                               // a bit roomier so they don't look tiny on phones
+  const MAX_SIZE_PX = 1200;  // the image files are 1200px, so bigger would look blurry
+  const SMALL_IMAGE_PX = 800; // width of the lighter copies in organic_cutouts_web/small/
   // How many cutouts: grows with the length of the page
   const PER_SCREEN = 1.5;     // cutouts per window-height of page (raise for more, smaller ones)
   const MIN_COUNT = 3;        // never fewer than this, even on a short page
@@ -105,9 +108,10 @@
     return min + Math.random() * (max - min);
   }
 
-  // No cutouts on mobile screens (same width as the nav's mobile menu in
-  // main.css, which also hides them if a wide window is made narrow)
-  if (window.matchMedia("(max-width: 520px)").matches) return;
+  // On small screens the cutouts are mostly in the way of scrolling, so
+  // there a finger on a cutout scrolls the page instead of dragging it
+  // (taps still push them around)
+  const smallScreen = window.matchMedia("(max-width: 520px)");
 
   // Wait until the paintings have loaded so the page has its full length
   if (document.readyState === "complete") {
@@ -125,11 +129,20 @@
   let W = 0;
   let H = 0;
 
-  // The size of the whole page (not just the window)
+  // The size of the whole page (not just the window). The page's length is
+  // taken from the body, so the layer doesn't need to be collapsed first;
+  // that used to force a full re-layout on every resize, and phones fire
+  // resizes constantly while scrolling (the address bar shows and hides).
+  let lastViewW = -1;
+  let lastPageH = -1;
   function measurePage() {
-    layer.style.height = "0px"; // so the layer itself doesn't count
-    W = document.documentElement.clientWidth;
-    H = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+    const viewW = document.documentElement.clientWidth;
+    const pageH = document.body.scrollHeight;
+    if (viewW === lastViewW && pageH === lastPageH) return; // nothing really changed
+    lastViewW = viewW;
+    lastPageH = pageH;
+    W = viewW;
+    H = Math.max(pageH, window.innerHeight);
     layer.style.height = H + "px";
   }
   measurePage();
@@ -152,7 +165,7 @@
   // still differ in size even when they're at the limit)
   const sizeLimit = MAX_SIZE * biggestCopy;
   const baseWidth = Math.min(roomSize, W * MAX_PAGE_WIDTH / sizeLimit, MAX_SIZE_PX / sizeLimit,
-                             W * MAX_SCREEN_SIZE / sizeLimit);
+                             W * (smallScreen.matches ? SMALL_SCREEN_SIZE : MAX_SCREEN_SIZE) / sizeLimit);
   const widths = IMAGES.map(function (img) {
     return baseWidth * rand(MIN_SIZE, MAX_SIZE) * img.copySize;
   });
@@ -218,7 +231,13 @@
 
   floaters.forEach(function (f) {
     const img = document.createElement("img");
-    img.src = IMAGES[f.i].src;
+    // Use the 600px copy (in small/) when it's sharp enough at this size on
+    // this screen: much less for phones to download, decode and move around
+    const needPx = f.width * (window.devicePixelRatio || 1);
+    img.src = needPx <= SMALL_IMAGE_PX
+      ? IMAGES[f.i].src.replace(/([^/]+)$/, "small/$1")
+      : IMAGES[f.i].src;
+    img.decoding = "async";
     img.alt = "";
     img.className = "floater";
     img.style.width = f.width + "px";
@@ -493,7 +512,8 @@
     pressed = true;
     lastX = e.pageX;
     lastY = e.pageY;
-    const f = !isPageContent(e.target) && cutoutAt(e.pageX, e.pageY);
+    const touchOnSmall = e.pointerType === "touch" && smallScreen.matches;
+    const f = !touchOnSmall && !isPageContent(e.target) && cutoutAt(e.pageX, e.pageY);
     if (f) {
       e.preventDefault(); // stop text from being selected while dragging
       startGrab(f, e.pageX, e.pageY);
@@ -505,6 +525,7 @@
   // On touch screens, stop the page from scrolling while dragging a cutout
   window.addEventListener("touchstart", function (e) {
     const t = e.touches[0];
+    if (smallScreen.matches) return;
     if (t && !isPageContent(e.target) && cutoutAt(t.pageX, t.pageY)) {
       e.preventDefault();
     }
